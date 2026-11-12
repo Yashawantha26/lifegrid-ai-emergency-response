@@ -1,0 +1,12 @@
+{
+  "name": "incident-escalation",
+  "description": "Escalates critical incidents to command center and response teams.",
+  "triggers": [
+    { "type": "webhook", "event": "incident.created" }
+  ],
+  "steps": [
+    { "type": "filter", "field": "severity", "condition": "equals", "value": "critical" },
+    { "type": "notify", "channel": "operations-team", "template": "Critical incident alert: {{incident_id}}" },
+    { "type": "http_request", "url": "${DISPATCH_API_URL}", "method": "POST" }
+  ]
+}
